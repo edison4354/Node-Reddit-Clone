@@ -18,16 +18,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.get('/', (req, res) => {
-  res.render('home')
+ 
+app.get('/posts/new', (req, res) => {
+  res.render('posts-new')
 })
 
 //==================CONTROLLERS=======================\\
 
-// require('./controllers/auth.js')(app);
 require('./controllers/posts.js')(app);
-// require('./controllers/comments.js')(app);
-// require('./controllers/replies.js')(app);
 
 //====================START SERVER============================\\
 app.listen(port, () => {
