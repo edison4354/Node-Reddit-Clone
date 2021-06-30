@@ -11,6 +11,7 @@ module.exports = (app) => {
     post.save(() => res.redirect('/'));
   });
 
+  // ALL POST
   app.get('/', async (req, res) => {
     try {
       const posts = await Post.find({}).lean();
@@ -20,4 +21,13 @@ module.exports = (app) => {
     }
   });
 
+  // LOOK UP THE POST
+  app.get('/posts/:id', async (req, res) => {
+    try {
+      const post = await Post.find(req.params.id).lean();
+      return res.render('posts-show', { post });
+    } catch (err) {
+      console.log(err.message);
+    }
+  });
 };
