@@ -20,6 +20,10 @@ module.exports = (app) => {
     }
   });
 
+  app.get('/posts/new', (req, res) => {
+    res.render('posts-new', {});
+  })
+
   // LOOK UP THE POST
   app.get('/posts/:id', async (req, res) => {
     try {
@@ -30,4 +34,13 @@ module.exports = (app) => {
     }
   });
 
+  // SUBREDDIT
+  app.get('/n/:subreddit', (req, res) => {
+    Post.find({ subreddit: req.params.subreddit }).lean()
+      .then((posts) => res.render('posts-index', { posts }))
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+  
 };
