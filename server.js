@@ -5,6 +5,7 @@ const express = require('express');
 const exphbs  = require('express-handlebars');
 
 const cookieParser = require('cookie-parser');
+const checkAuth = require('./middleware/checkAuth');
 
 // App Setup
 var app = express();
@@ -17,6 +18,7 @@ app.set('view engine', 'handlebars');
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(checkAuth);
 
 
 require('./controllers/posts')(app);
