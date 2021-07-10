@@ -7,6 +7,7 @@ const agent = chai.request.agent(app);
 
 const should = chai.should();
 
+
 chai.use(chaiHttp);
 
 describe('Posts', function () {
@@ -17,6 +18,11 @@ describe('Posts', function () {
     summary: 'post summary'
   };
 
+  // User that we'll use for testing purposes
+  const user = {
+    username: 'poststest',
+    password: 'testposts',
+  };
 // For the IT STATEMENT
   // How many posts are there now?
   // Make a request to create another
@@ -55,7 +61,13 @@ describe('Posts', function () {
       });
   });
 
-  after(function () {
-    Post.findOneAndDelete(newPost);
+  after(function (done) {
+    Post.findOneAndDelete(newPost)
+      .then(function () {
+        agent.close();
+      })
+      .catch(function (err) {
+        done(err);
+      });
   });
 });
