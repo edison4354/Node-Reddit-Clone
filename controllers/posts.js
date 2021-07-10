@@ -45,11 +45,11 @@ module.exports = (app) => {
     res.render('posts-new', {});
   })
 
-  // LOOK UP THE POST
+  // SHOW
   app.get('/posts/:id', (req, res) => {
     const currentUser = req.user;
-
-    Post.findById(req.params.id).lean().populate('comments').populate('author')
+    // LOOK UP THE POST
+    Post.findById(req.params.id).lean().populate({ path: 'comments', populate: { path: 'author' }}).populate('author')
       .then((post) => res.render('posts-show', { post, currentUser }))
       .catch((err) => {
         console.log(err.message);
