@@ -7,6 +7,7 @@ module.exports = (app) => {
   // CREATE
   app.post('/posts/new', (req, res) => {
     if (req.user) {
+      const userId = req.user._id;
       const post = new Post(req.body);
       post.author = req.user._id;
       post.upVotes = [];
@@ -30,22 +31,23 @@ module.exports = (app) => {
     }
   });
 
+  app.get('/posts/new', (req, res) => {
+    const currentUser = req.user;
+    res.render('posts-new', { currentUser });
+  })
+
   // INDEX
   app.get('/', (req, res) => {
     const { user } = req;
     const currentUser = req.user;
-    console.log(currentUser);
-    console.log(req.cookies);
+    // console.log(currentUser);
+    // console.log(req.cookies);
     Post.find({}).lean().populate('author')
-      .then((posts) => res.render('posts-index', { posts, currentUser, user }))
+      .then((posts) => res.render('posts-index', { posts, currentUser }))
       .catch((err) => {
         console.log(err.message);
       });
   });
-
-  app.get('/posts/new', (req, res) => {
-    res.render('posts-new', {});
-  })
 
   // SHOW
   app.get('/posts/:id', (req, res) => {
@@ -67,7 +69,6 @@ module.exports = (app) => {
       });
   });
 
-  // VOTE UP
   app.put('/posts/:id/vote-up', (req, res) => {
     Post.findById(req.params.id).then((err, post) => {
       post.upVotes.push(req.user._id);
@@ -78,7 +79,6 @@ module.exports = (app) => {
     });
   });
   
-  // VOTE DOWN
   app.put('/posts/:id/vote-down', (req, res) => {
     Post.findById(req.params.id).then((err, post) => {
       post.downVotes.push(req.user._id);

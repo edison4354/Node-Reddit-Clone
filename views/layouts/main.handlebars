@@ -22,14 +22,13 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
-            <ul class="navbar-nav mr-auto">
-              {{#if currentUser}}
-                <li class="nav-item">
-                  <a class="nav-link" href="/posts/new">New Post</a>
-                </li>
-              {{/if}}
-            </ul>
+            {{#if currentUser}}
+              <li class="nav-item">
+                <a class="nav-link" href="/posts/new">New Post</a>
+              </li>
+            {{/if}}
           </ul>
+
           {{!-- <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
